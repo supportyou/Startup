@@ -1,0 +1,9 @@
+sofreight
+PC版不支持bootstap
+移动浏览器版是m.sofreight.com
+移动app版是开发iSO和安卓版
+
+weiyun001
+PC版不支持bootstap
+移动浏览器版是http://www.weiyun001.com/app
+没有移动app版，从移动浏览器版创建桌面快捷方式生成假的
