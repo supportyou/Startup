@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!-- session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation"
+			value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	<!-- transaction manager -->
+	<bean id="myTransactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- dao层 -->
+	<bean id="baseDao" class="com.test.dao.BaseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+	<bean id="userDao" class="com.test.dao.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+	<!-- 业务层 -->
+	<bean id="userServiceTarget" 
+		class="com.test.service.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	<bean id="userService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.test.service.UserService</value>
+		</property>
+		<property name="transactionManager">
+			<ref bean="myTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="userServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="modify*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>	
+	
+	<bean id="orderServiceTarget" 
+		class="com.test.service.OrderServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+	</bean>
+	<bean id="orderService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.test.service.OrderService</value>
+		</property>
+		<property name="transactionManager">
+			<ref bean="myTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="orderServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>	
+	
+	<bean id="productService" class="com.test.service.ProductServiceImpl">
+		<property name="baseDao" ref="baseDao"></property>
+	</bean>
+	
+	<!-- 表现层 -->
+	<bean name="/login" class="com.test.struts.action.LoginAction">
+		<property name="userService" ref="userService"></property>
+	</bean>	
+	<bean name="/logout" class="com.test.struts.action.LogoutAction">
+	</bean>	
+	<bean name="/ListAction" class="com.test.struts.action.ListAction">
+		<property name="productService" ref="productService"></property>
+	</bean>	
+	<bean name="/CartAction" class="com.test.struts.action.CartAction">
+	</bean>	
+	<bean name="/OrderAction" class="com.test.struts.action.OrderAction">
+		<property name="orderService" ref="orderService"></property>
+	</bean>	
+	<bean name="/manage/ManageAction" class="com.test.struts.action.ManageAction">
+		<property name="orderService" ref="orderService"></property>
+	</bean>	
+</beans>

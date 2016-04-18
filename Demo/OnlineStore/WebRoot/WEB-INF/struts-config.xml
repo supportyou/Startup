@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="lazyForm" type="org.apache.struts.validator.LazyValidatorForm" />
+	</form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/login" name="lazyForm" validate="false">
+			<forward name="login" path="/login.jsp"></forward>
+			<forward name="manage" path="/manage/ManageAction.do?method=index" redirect="true"></forward>
+			<forward name="succ" path="/ListAction.do?method=index" redirect="true"></forward>
+		</action>
+		<action path="/logout" name="lazyForm" validate="false">
+			<forward name="login" path="/login.jsp"></forward>
+		</action>
+		<action path="/ListAction" name="lazyForm" validate="false" parameter="method">
+			<forward name="list" path="/list.jsp"></forward>
+		</action>
+		<action path="/CartAction" name="lazyForm" validate="false" parameter="method">
+			<forward name="cart" path="/cart.jsp"></forward>
+		</action>
+		<action path="/OrderAction" name="lazyForm" validate="false" parameter="method">
+			<forward name="login" path="/login.jsp"></forward>
+			<forward name="order" path="/order.jsp"></forward>
+			<forward name="succ" path="/success.jsp"></forward>
+		</action>
+		<action path="/manage/ManageAction" name="lazyForm" validate="false" parameter="method">
+			<forward name="manage" path="/manage/manage.jsp"></forward>
+		</action>
+	</action-mappings>
+	<controller nocache="true">
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+	<message-resources
+		parameter="com.test.struts.ApplicationResources" />
+</struts-config>
+
