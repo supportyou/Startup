@@ -1,5 +1,8 @@
 1，SSH+前端框架
-2，设置好基础类，其他类再去继承它，参考http://www.itnose.net/detail/6097424.html
-3，尝试用Log4J
+2，设置好基础类，权限过滤器，工具包，分页类，其他类再去继承它，参考http://www.itnose.net/detail/6097424.html
+3，尝试用Log4J，JUnit
 4，系统编码和数据库编码，国际化，字符转换等常用类
-5，
+5，安全性考虑，MD5加密，采取客户端和服务器端双重验证
+6，action,service(service.impl),dao(dao.impl),bean,tool,各种xml
+7，根目录下放index.jsp，各种文件夹
+8，考虑通过Json+Ajax交换数据
