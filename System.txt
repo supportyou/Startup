@@ -6,3 +6,4 @@
 6，action,service(service.impl),dao(dao.impl),bean,tool,各种xml
 7，根目录下放index.jsp，各种文件夹
 8，考虑通过Json+Ajax交换数据
+9，店家可以在PC端和手机端同时使用；店家可以直接通过扫码功能录入库存；通过打通API，商家也可以直接使用支付宝和微信完成交易，然后同步到小店的账目中。
